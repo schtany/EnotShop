@@ -12,9 +12,9 @@ import java.util.Map;
 
 public class ShopOwnerStorage {
 
-    private static Map<Block, String> shops = new HashMap<>();
+    private static final Map<Block, String> shops = new HashMap<>();
 
-    public static boolean contains(@NonNull Block sign) {
+    public static boolean containsOwner(@NonNull Block sign) {
         return shops.containsKey(sign);
     }
 
@@ -22,42 +22,38 @@ public class ShopOwnerStorage {
         return shops.get(sign);
     }
 
-    public static void addShop(@NonNull String owner, Block sign) {
+    public static void addOwner(@NonNull String owner, Block sign) {
         shops.put(sign, owner);
     }
 
-    public static void removeShop(@NonNull Block sign) {
+    public static void removeOwner(@NonNull Block sign) {
         if (shops.containsKey(sign)) {
             System.out.println("[EnotShop] " + shops.get(sign) + "'s shop has been removed");
             shops.remove(sign);
         }
     }
 
-    public static void saveShops(@NonNull File file) {
-        try (FileWriter fileWriter = new FileWriter(file, true)) {
+    public static void saveOwners(@NonNull File file) {
+        try (FileWriter fileWriter = new FileWriter(file, false)) {
             for (Map.Entry<Block, String> shop : shops.entrySet()) {
 
                 String signBlock = shop.getKey().getX() + "/" + shop.getKey().getY() + "/" + shop.getKey().getZ() + "/" + shop.getKey().getWorld().getName();
 
                 ExtraObject data = ExtraObject.of("owner", shop.getValue(), "sign", signBlock);
 
-                String s = data.toString() + "\r\n";
-
-                fileWriter.write(s);
+                fileWriter.write(data.toString() + "\r\n");
             }
         }catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public static void loadShops(@NonNull File file) {
-        try {
-            if (!file.exists()) {
-                System.out.println("Shops file not found");
-                return;
-            }
-            BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
-
+    public static void loadOwners(@NonNull File file) {
+        if (!file.exists()) {
+            System.out.println("Shops file not found");
+            return;
+        }
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
             bufferedReader.lines().forEach(s->{
                 Object o = LibJson.parseJson(s);
                 ExtraObject object = (ExtraObject) o;

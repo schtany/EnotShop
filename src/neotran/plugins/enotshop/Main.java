@@ -19,12 +19,12 @@ public class Main extends JavaPlugin {
 
         Bukkit.getPluginManager().registerEvents(new ShopListener(), instance);
 
-        ShopOwnerStorage.loadShops(new File(getDataFolder(), "shops.txt"));
+        ShopOwnerStorage.loadOwners(new File(getDataFolder(), "shops.txt"));
     }
 
     @Override
     public void onDisable() {
-        ShopOwnerStorage.saveShops(new File(getDataFolder(), "shops.txt"));
+        ShopOwnerStorage.saveOwners(new File(getDataFolder(), "shops.txt"));
     }
 
 }

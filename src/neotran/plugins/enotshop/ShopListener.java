@@ -22,7 +22,7 @@ public class ShopListener implements Listener {
     @EventHandler
     void onBlockBreakSign(BlockBreakEvent e) {
         if (e.getBlock().getType() == Material.SIGN_POST || e.getBlock().getType() == Material.WALL_SIGN) {
-            ShopOwnerStorage.removeShop(e.getBlock());
+            ShopOwnerStorage.removeOwner(e.getBlock());
         }
     }
 
@@ -36,7 +36,7 @@ public class ShopListener implements Listener {
             return;
         }
 
-        if (!ShopOwnerStorage.contains(e.getClickedBlock())) {
+        if (!ShopOwnerStorage.containsOwner(e.getClickedBlock())) {
             return;
         }
 
@@ -111,7 +111,7 @@ public class ShopListener implements Listener {
             return;
         }
 
-        ShopOwnerStorage.addShop(e.getPlayer().getName(), e.getBlock());
+        ShopOwnerStorage.addOwner(e.getPlayer().getName(), e.getBlock());
         e.getPlayer().sendMessage("§eМагазин установлен!");
     }
 
