@@ -1,0 +1,6 @@
+name: EnotShop
+main: neotran.plugins.enotshop.Main
+author: neotran
+version: 1.0
+commands:
+  e:
